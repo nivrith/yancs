@@ -25,6 +25,13 @@ describe('yancs', () => {
     });
   });
 
+  it('Should yield arrays', () => {
+    return yancs(function *(): Iterator<any>{
+      let arr = yield [1,2,3,4].map(x => x*2);
+      expect(arr).to.have.members([2,4,6,8]);
+    });
+  });
+
   it('Should yield objects', () => {
     return yancs(function *(): Iterator<any>{
       let obj = yield {
@@ -37,6 +44,13 @@ describe('yancs', () => {
   it('Should yield thunks', () => {
     return yancs(function *(): Iterator<any>{
       let evaluatedThunk = yield () => 9999 * 9999 ;
+      expect(evaluatedThunk).to.equal(9999 * 9999);
+    });
+  });
+
+  it('Should yield thunks that return promises', () => {
+    return yancs(function *(): Iterator<any>{
+      let evaluatedThunk = yield () => Promise.resolve(9999 * 9999);
       expect(evaluatedThunk).to.equal(9999 * 9999);
     });
   });

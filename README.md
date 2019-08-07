@@ -33,11 +33,26 @@ $ yarn add yancs
 
   const { yancs } = require('yancs');
 
+  // yield promises in async/await fashion
   yancs(function *() {
     let response = yield fetch(`https://api.github.com/users/nivrith`);
     let data = yield response.json();
     console.log(data)
   });
+
+  // Flow control with thunks
+
+   yancs(function *() {
+    let response = yield fetch(`https://api.github.com/users/nivrith`);
+    let data = yield () => response.json();
+    console.log(data)
+  });
+
+  // yield arrays
+  yancs(function *() {
+    console.log(yield [1,2,3].map(x=>x*2)) //[2,4,6]
+  });
+
 
 ```
 
